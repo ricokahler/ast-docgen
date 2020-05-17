@@ -1,10 +1,11 @@
 {
-  "name": "ast-docgen",
+  "name": "@ricokahler/ast-docgen",
   "version": "0.0.0",
   "description": "A toolkit for generating docs from typescript ASTs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "build": "node ./scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,18 @@
   "bugs": {
     "url": "https://github.com/ricokahler/ast-docgen/issues"
   },
-  "homepage": "https://github.com/ricokahler/ast-docgen#readme"
+  "homepage": "https://github.com/ricokahler/ast-docgen#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@types/jest": "^25.2.2",
+    "folder-hash": "^3.3.1",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "rollup": "^2.8.2",
+    "typescript": "^3.9.2"
+  }
 }
