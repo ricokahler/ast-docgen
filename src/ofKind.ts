@@ -17,6 +17,10 @@ type NodeTypes = {
     : _NodeTypes[K];
 };
 
+/**
+ * returns an acceptor that takes in a syntax kind. this file exists for
+ * convenience and types
+ */
 function ofKind<S extends ts.SyntaxKind>(syntaxKind: S) {
   return (node: ts.Node): node is NodeTypes[S] => node.kind === syntaxKind;
 }

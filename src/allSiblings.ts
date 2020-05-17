@@ -1,5 +1,8 @@
 import ts from 'typescript';
 
+/**
+ * like siblings but grabs all the siblings that match in the label
+ */
 function allSiblings<T extends ts.Node>(
   acceptSubject: (node: ts.Node) => boolean,
   acceptObject: (node: ts.Node) => node is T,

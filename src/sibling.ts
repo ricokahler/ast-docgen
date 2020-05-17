@@ -1,5 +1,9 @@
 import ts from 'typescript';
 
+/**
+ * referencing the first matching subject, this selector will looks the first
+ * matching sibling (the `object`)
+ */
 function sibling<T extends ts.Node>(
   acceptSubject: (node: ts.Node) => boolean,
   acceptObject: (node: ts.Node) => node is T,

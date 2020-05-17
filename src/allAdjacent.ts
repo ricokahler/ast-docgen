@@ -1,5 +1,8 @@
 import ts from 'typescript';
 
+/**
+ * similar to adjacent but grabs all of them
+ */
 function allAdjacent<T extends ts.Node>(
   acceptSubject: (node: ts.Node) => boolean,
   acceptObject: (node: ts.Node) => node is T,

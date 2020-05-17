@@ -1,6 +1,9 @@
 import ts from 'typescript';
 
-function find(accept: any): (node: ts.Node) => ts.Node | null;
+// function find(accept: any): (node: ts.Node) => ts.Node | null;
+/**
+ * recursively looks for a node that satisfies the accept function
+ */
 function find<T extends ts.Node>(
   accept: (node: ts.Node) => node is T,
 ): (node: ts.Node) => T | null {

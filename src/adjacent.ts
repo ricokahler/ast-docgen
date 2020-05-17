@@ -1,5 +1,8 @@
 import ts from 'typescript';
 
+/**
+ * grabs using adjacent criteria 
+ */
 function adjacent<T extends ts.Node>(
   acceptSubject: (node: ts.Node) => boolean,
   acceptObject: (node: ts.Node) => node is T,
