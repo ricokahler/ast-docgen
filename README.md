@@ -10,7 +10,7 @@ npm i --save-dev @ricokahler/ast-docgen
 
 <!-- START_DOCGEN -->
 
-## `adjacent`
+### `adjacent`
 
 grabs using adjacent criteria
 
@@ -19,7 +19,7 @@ grabs using adjacent criteria
 
 **Return type:** `(node: any) => T`
 
-## `allAdjacent`
+### `allAdjacent`
 
 similar to adjacent but grabs all of them
 
@@ -28,7 +28,7 @@ similar to adjacent but grabs all of them
 
 **Return type:** `(node: any) => T[]`
 
-## `allChildren`
+### `allChildren`
 
 like children but grabs all of them that match in the level
 
@@ -36,7 +36,7 @@ like children but grabs all of them that match in the level
 
 **Return type:** `(node: any) => any`
 
-## `allSiblings`
+### `allSiblings`
 
 like siblings but grabs all the siblings that match in the label
 
@@ -45,7 +45,7 @@ like siblings but grabs all the siblings that match in the label
 
 **Return type:** `(node: any) => T[]`
 
-## `and`
+### `and`
 
 requires that all accept or this will return false
 
@@ -53,7 +53,7 @@ requires that all accept or this will return false
 
 **Return type:** `(node: any) => boolean`
 
-## `child`
+### `child`
 
 in the current level (i.e. this is not recursive), this will return the first
 matching node
@@ -62,7 +62,7 @@ matching node
 
 **Return type:** `(node: any) => T`
 
-## `compileDeclarations`
+### `compileDeclarations`
 
 takes in a all the file names and returns the declaration for each file.
 use this to normalize the type files before pulling data from them
@@ -72,7 +72,7 @@ use this to normalize the type files before pulling data from them
 
 **Return type:** `string[]`
 
-## `createRoot`
+### `createRoot`
 
 creates the root node aka the SourceFile node
 
@@ -80,7 +80,7 @@ creates the root node aka the SourceFile node
 
 **Return type:** `any`
 
-## `find`
+### `find`
 
 recursively looks for a node that satisfies the accept function
 
@@ -88,7 +88,7 @@ recursively looks for a node that satisfies the accept function
 
 **Return type:** `(node: ts.Node) => T | null`
 
-## `findAll`
+### `findAll`
 
 like find but doesn't early return. returns an array of accepted nodes
 
@@ -96,7 +96,7 @@ like find but doesn't early return. returns an array of accepted nodes
 
 **Return type:** `(node: ts.Node) => ts.Node[]`
 
-## `ofKind`
+### `ofKind`
 
 returns an acceptor that takes in a syntax kind. this file exists for
 convenience and types
@@ -105,7 +105,7 @@ convenience and types
 
 **Return type:** `(node: any) => node is NodeTypes[S]`
 
-## `or`
+### `or`
 
 returns true is at least one of the acceptors returns true
 
@@ -113,7 +113,7 @@ returns true is at least one of the acceptors returns true
 
 **Return type:** `(node: any) => boolean`
 
-## `query`
+### `query`
 
 A simple function that applies the second argument (the function) to the
 first argument (the input node).
@@ -123,7 +123,7 @@ first argument (the input node).
 
 **Return type:** `T`
 
-## `sibling`
+### `sibling`
 
 referencing the first matching subject, this selector will looks the first
 matching sibling (the `object`)

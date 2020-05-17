@@ -39,7 +39,7 @@ async function generateDocs() {
   const markdown = results
     .map(
       ({ functionName, parameters, description, returnType }) => `
-## \`${functionName}\`
+### \`${functionName}\`
 
 ${description.trim()}
 
