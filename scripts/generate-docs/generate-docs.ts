@@ -104,10 +104,7 @@ function getFunctionInfo(contents: string) {
     adjacent(wildcard),
   );
 
-  const description = query<ts.JSDoc>(
-    functionDeclaration,
-    child(is(t.JSDocComment)),
-  );
+  const description = query(functionDeclaration, child(is(t.JSDocComment)));
 
   return {
     functionName:

@@ -34,8 +34,10 @@ function query<T extends ts.Node>(
 ): T | null;
 function query<T extends ts.Node>(
   node: ts.Node,
-  ...fns: Array<(t: ts.Node) => Generator<ts.Node>>
+  ...fns: Operation[]
 ): T | null {
+  // ts doesn't like the spread here
+  // @ts-ignore
   for (const i of queryAll(node, ...fns)) {
     return i as T;
   }
