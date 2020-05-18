@@ -4,7 +4,12 @@
 
 > ⚠️ **extremely experimental** as of now. there are no docs and no versioned releases yet. check back soon!
 
+👇👇👇
+
 [Video Demo](https://youtu.be/WBqEIAFfxw0)
+
+👆👆👆
+<br />
 
 ```
 npm i --save-dev @ricokahler/ast-docgen
