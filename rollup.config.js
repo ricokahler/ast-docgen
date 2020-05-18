@@ -10,7 +10,10 @@ export default {
     }),
     babel({
       babelrc: false,
-      presets: ['@babel/preset-env', '@babel/preset-typescript'],
+      presets: [
+        ['@babel/preset-env', { targets: { node: 'current' } }],
+        '@babel/preset-typescript',
+      ],
       babelHelpers: 'bundled',
       extensions,
     }),
