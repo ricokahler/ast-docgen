@@ -2,11 +2,15 @@
 
 > A toolkit for generating docs from typescript ASTs
 
-extremely experimental as of now. check back later
+⚠️ extremely experimental as of now. check back later
 
 ```
 npm i --save-dev @ricokahler/ast-docgen
 ```
+
+And yes, [these docs were generated from itself](https://github.com/ricokahler/ast-docgen/blob/master/scripts/generate-docs/generate-docs.ts).
+
+---
 
 <!-- START_DOCGEN -->
 
