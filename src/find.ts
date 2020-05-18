@@ -1,21 +1,19 @@
 import ts from 'typescript';
+import { Accept } from './types';
 
-// function find(accept: any): (node: ts.Node) => ts.Node | null;
 /**
  * recursively looks for a node that satisfies the accept function
  */
-function find<T extends ts.Node>(
-  accept: (node: ts.Node) => node is T,
-): (node: ts.Node) => T | null {
-  return (node: ts.Node): T | null => {
-    if (accept(node)) return node;
+function find<T extends ts.Node>(accept: Accept<T>) {
+  return function* (node: ts.Node): Generator<T> {
+    if (accept(node)) yield node;
 
     for (const child of node.getChildren()) {
       const found = find(accept)(child);
-      if (found) return found as T;
+      for (const i of found) {
+        yield i;
+      }
     }
-
-    return null;
   };
 }
 

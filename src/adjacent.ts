@@ -1,21 +1,16 @@
 import ts from 'typescript';
+import { Accept } from './types';
 
 /**
- * grabs using adjacent criteria 
+ * Grabs the adjacent node to the given node
  */
-function adjacent<T extends ts.Node>(
-  acceptSubject: (node: ts.Node) => boolean,
-  acceptObject: (node: ts.Node) => node is T,
-) {
-  return (node: ts.Node) => {
-    const children = node.getChildren();
-    for (let i = 0; i < children.length - 1; i += 1) {
-      const subject = children[i];
-      const object = children[i + 1];
+function adjacent<T extends ts.Node>(acceptObject: Accept<T>) {
+  return function* (node: ts.Node) {
+    const children = node.parent.getChildren();
+    const currentIndex = children.findIndex((child) => child === node);
+    const obj = children[currentIndex + 1];
 
-      if (acceptSubject(subject) && acceptObject(object)) return object;
-    }
-    return null;
+    if (acceptObject(obj)) yield obj;
   };
 }
 

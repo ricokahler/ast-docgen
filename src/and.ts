@@ -1,10 +1,13 @@
 import ts from 'typescript';
+import { Accept } from './types';
 
 /**
- * requires that all accept or this will return false
+ * Return an acceptor that requires all of the given acceptors to accept
  */
-function and(...accepts: Array<(node: ts.Node) => any>) {
-  return (node: ts.Node) => accepts.every((accept) => Boolean(accept(node)));
+function and(...accepts: Accept[]) {
+  return (node: ts.Node) => {
+    return accepts.every((accept) => Boolean(accept(node)));
+  };
 }
 
 export default and;

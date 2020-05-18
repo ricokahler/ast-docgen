@@ -1,7 +1,7 @@
 import ts from 'typescript';
 
 /**
- * creates the root node aka the SourceFile node
+ * Creates the root node aka the SourceFile node given some code
  */
 function createRoot(content: string) {
   return ts.createSourceFile(

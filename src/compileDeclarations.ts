@@ -1,8 +1,8 @@
 import ts from 'typescript';
 
 /**
- * takes in a all the file names and returns the declaration for each file.
- * use this to normalize the type files before pulling data from them
+ * Takes in a all the file names and returns the declaration for each file.
+ * Use this to normalize the type files before parsing them for data.
  */
 function compileDeclarations(
   filenames: string[],

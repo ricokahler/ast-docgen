@@ -1,17 +1,17 @@
 import path from 'path';
 import fs from 'fs';
-import ts from 'typescript';
+import ts, { SyntaxKind as t } from 'typescript';
 import prettier from 'prettier';
-import { stripIndent } from 'common-tags';
 import {
   compileDeclarations,
   createRoot,
   query,
+  queryAll,
   child,
-  ofKind,
+  is,
   find,
   adjacent,
-  allChildren,
+  wildcard,
 } from '../../src';
 
 async function generateDocs() {
@@ -34,16 +34,16 @@ async function generateDocs() {
         return null;
       }
     })
-    .filter(Boolean);
+    .filter((x): x is NonNullable<typeof x> => Boolean(x));
 
   const markdown = results
     .map(
       ({ functionName, parameters, description, returnType }) => `
 ### \`${functionName}\`
 
-${description.trim()}
+${description?.trim()}
 
-${parameters.map((param) => `- \`${param}\``).join('\n')}
+${parameters?.map((param) => `- \`${param}\``).join('\n')}
 
 **Return type:** \`${returnType}\`
 `,
@@ -70,58 +70,52 @@ ${parameters.map((param) => `- \`${param}\``).join('\n')}
 function getFunctionInfo(contents: string) {
   const root = createRoot(contents);
 
-  const functionDeclaration = query(
-    root,
-    find(ofKind(ts.SyntaxKind.FunctionDeclaration)),
-  );
+  const functionDeclaration = query(root, find(is(t.FunctionDeclaration)));
 
-  const functionNameIdentifier = query(
+  if (!functionDeclaration) {
+    return null;
+  }
+
+  const functionNameIdentifiers = queryAll(
     functionDeclaration,
-    adjacent(
-      ofKind(ts.SyntaxKind.FunctionKeyword),
-      ofKind(ts.SyntaxKind.Identifier),
-    ),
+    child(is(t.FunctionKeyword)),
+    adjacent(is(t.Identifier)),
   );
+  const [functionNameIdentifier] = functionNameIdentifiers;
 
   const typeParameterNode = query(
     functionDeclaration,
-    find(ofKind(ts.SyntaxKind.TypeParameter)),
+    child(is(t.LessThanToken)),
+    adjacent(is(t.SyntaxList)),
   );
 
   const paramsSyntaxList = query(
     functionDeclaration,
-    adjacent(
-      ofKind(ts.SyntaxKind.OpenParenToken),
-      ofKind(ts.SyntaxKind.SyntaxList),
-    ),
+    child(is(t.OpenParenToken)),
+    adjacent(is(t.SyntaxList)),
   );
 
-  const params = query(
-    paramsSyntaxList,
-    allChildren(ofKind(ts.SyntaxKind.Parameter)),
-  );
+  const params =
+    paramsSyntaxList && queryAll(paramsSyntaxList, child(is(t.Parameter)));
 
   const returnType = query(
     functionDeclaration,
-    adjacent(
-      ofKind(ts.SyntaxKind.ColonToken),
-      // @ts-ignore
-      () => true,
-    ),
+    child(is(t.ColonToken)),
+    adjacent(wildcard),
   );
 
-  const description = query(
+  const description = query<ts.JSDoc>(
     functionDeclaration,
-    child(ofKind(ts.SyntaxKind.JSDocComment)),
+    child(is(t.JSDocComment)),
   );
 
   return {
     functionName:
       functionNameIdentifier && functionNameIdentifier.getText().trim(),
     typeParameter: typeParameterNode && typeParameterNode.getText().trim(),
-    parameters: params.map((param) => param.getText().trim()),
-    returnType: returnType && returnType.getText().trim(),
-    description: description && description.comment.trim(),
+    parameters: params?.map((param) => param.getText().trim()),
+    returnType: returnType?.getText().trim(),
+    description: description?.comment?.trim(),
   };
 }
 

@@ -1,16 +1,14 @@
 import ts from 'typescript';
+import { Accept } from './types';
 
 /**
- * in the current level (i.e. this is not recursive), this will return the first
- * matching node
+ * Returns all the nodes in the current level that match the acceptor
  */
-function child<T extends ts.Node>(accept: (node: ts.Node) => node is T) {
-  return (node: ts.Node) => {
+function child<T extends ts.Node>(accept: Accept<T>) {
+  return function* (node: ts.Node) {
     for (const child of node.getChildren()) {
-      if (accept(child)) return child;
+      if (accept(child)) yield child;
     }
-
-    return null;
   };
 }
 

@@ -12,60 +12,32 @@ npm i --save-dev @ricokahler/ast-docgen
 
 ### `adjacent`
 
-grabs using adjacent criteria
+Grabs the adjacent node to the given node
 
-- `acceptSubject: (node: ts.Node) => boolean`
-- `acceptObject: (node: ts.Node) => node is T`
+- `acceptObject: Accept<T>`
 
-**Return type:** `(node: any) => T`
-
-### `allAdjacent`
-
-similar to adjacent but grabs all of them
-
-- `acceptSubject: (node: ts.Node) => boolean`
-- `acceptObject: (node: ts.Node) => node is T`
-
-**Return type:** `(node: any) => T[]`
-
-### `allChildren`
-
-like children but grabs all of them that match in the level
-
-- `accept: (node: ts.Node) => node is T`
-
-**Return type:** `(node: any) => any`
-
-### `allSiblings`
-
-like siblings but grabs all the siblings that match in the label
-
-- `acceptSubject: (node: ts.Node) => boolean`
-- `acceptObject: (node: ts.Node) => node is T`
-
-**Return type:** `(node: any) => T[]`
+**Return type:** `(node: any) => Generator<T, void, unknown>`
 
 ### `and`
 
-requires that all accept or this will return false
+Return an acceptor that requires all of the given acceptors to accept
 
-- `...accepts: Array<(node: ts.Node) => any>`
+- `...accepts: Accept[]`
 
 **Return type:** `(node: any) => boolean`
 
 ### `child`
 
-in the current level (i.e. this is not recursive), this will return the first
-matching node
+Returns all the nodes in the current level that match the acceptor
 
-- `accept: (node: ts.Node) => node is T`
+- `accept: Accept<T>`
 
-**Return type:** `(node: any) => T`
+**Return type:** `(node: any) => Generator<T, void, unknown>`
 
 ### `compileDeclarations`
 
-takes in a all the file names and returns the declaration for each file.
-use this to normalize the type files before pulling data from them
+Takes in a all the file names and returns the declaration for each file.
+Use this to normalize the type files before parsing them for data.
 
 - `filenames: string[]`
 - `compilerOptions?: ts.CompilerOptions`
@@ -74,7 +46,7 @@ use this to normalize the type files before pulling data from them
 
 ### `createRoot`
 
-creates the root node aka the SourceFile node
+Creates the root node aka the SourceFile node given some code
 
 - `content: string`
 
@@ -84,19 +56,11 @@ creates the root node aka the SourceFile node
 
 recursively looks for a node that satisfies the accept function
 
-- `accept: (node: ts.Node) => node is T`
+- `accept: Accept<T>`
 
-**Return type:** `(node: ts.Node) => T | null`
+**Return type:** `(node: any) => Generator<T>`
 
-### `findAll`
-
-like find but doesn't early return. returns an array of accepted nodes
-
-- `accept: any`
-
-**Return type:** `(node: ts.Node) => ts.Node[]`
-
-### `ofKind`
+### `is`
 
 returns an acceptor that takes in a syntax kind. this file exists for
 convenience and types
@@ -109,26 +73,39 @@ convenience and types
 
 returns true is at least one of the acceptors returns true
 
-- `...accepts: Array<(node: ts.Node) => any>`
+- `...accepts: Accept[]`
 
 **Return type:** `(node: any) => boolean`
 
 ### `query`
 
-A simple function that applies the second argument (the function) to the
-first argument (the input node).
+Applies an array of generators to the node and pulls the first node
 
 - `node: ts.Node`
-- `fn: (t: ts.Node) => T`
+- `o1: Operation<T>`
 
-**Return type:** `T`
+**Return type:** `T | null`
+
+### `queryAll`
+
+Applies all the generators and returns an arry
+
+- `node: ts.Node`
+- `...fns: Array<(t: ts.Node) => Generator<ts.Node>>`
+
+**Return type:** `T[]`
 
 ### `sibling`
 
 referencing the first matching subject, this selector will looks the first
 matching sibling (the `object`)
 
-- `acceptSubject: (node: ts.Node) => boolean`
-- `acceptObject: (node: ts.Node) => node is T`
+- `accept: Accept<T>`
 
-**Return type:** `(node: any) => T`
+**Return type:** `(node: any) => Generator<T, void, unknown>`
+
+### `wildcard`
+
+this is an acceptor that always returns true
+
+**Return type:** `boolean`
